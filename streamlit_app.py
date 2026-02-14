@@ -80,9 +80,34 @@ st.markdown("""
 
     /* Input styling */
     .stNumberInput input {
-        background-color: rgba(255,255,255,0.05) !important;
-        color: white !important;
-        border: 1px solid #4facfe !important;
+        background-color: rgba(255,255,255,0.1) !important;
+        color: #ffffff !important;
+        border: 1px solid #00f2fe !important;
+        font-weight: 700 !important;
+    }
+    
+    /* Label and Metric Styling */
+    label, .stMetric label, p {
+        color: #e0e0e0 !important;
+        font-weight: 400;
+    }
+    
+    .stMetric [data-testid="stMetricValue"] {
+        color: #00f2fe !important;
+        text-shadow: 0 0 5px rgba(0, 242, 254, 0.5);
+    }
+    
+    h1, h2, h3, .stMarkdown h3 {
+        color: #fff !important;
+        text-shadow: 0 0 10px rgba(0, 242, 254, 0.3);
+    }
+
+    button[kind="secondaryFormSubmit"] {
+        background: linear-gradient(90deg, #4facfe 0%, #00f2fe 100%) !important;
+        color: #000 !important;
+        font-weight: 700 !important;
+        border: none !important;
+        width: 100% !important;
     }
 </style>
 """, unsafe_allow_html=True)
