@@ -136,19 +136,53 @@ with col_stats:
     
     # Prediction Form
     with st.form("predict_form"):
-        p_alcohol = st.number_input("Alcohol", value=13.0)
-        p_malic = st.number_input("Malic Acid", value=2.0)
-        p_color = st.number_input("Color Intensity", value=5.0)
+        st.markdown("**Chemical Markers**")
+        ac1, ac2 = st.columns(2)
+        p_alcohol = ac1.number_input("Alcohol", value=float(df_raw['alcohol'].mean()))
+        p_malic = ac2.number_input("Malic Acid", value=float(df_raw['malic_acid'].mean()))
         
-        # We fill others with mean for simplicity in demo
+        st.markdown("**Core Composition**")
+        ac3, ac4 = st.columns(2)
+        p_ash = ac3.number_input("Ash", value=float(df_raw['ash'].mean()))
+        p_ash_alc = ac4.number_input("Ash Alcalinity", value=float(df_raw['ash_alcanity'].mean()))
+        
+        p_magnesium = st.number_input("Magnesium", value=float(df_raw['magnesium'].mean()))
+        
+        st.markdown("**Phenolic Profile**")
+        ac5, ac6 = st.columns(2)
+        p_phenols = ac5.number_input("Total Phenols", value=float(df_raw['total_phenols'].mean()))
+        p_flavanoids = ac6.number_input("Flavanoids", value=float(df_raw['flavanoids'].mean()))
+        
+        ac7, ac8 = st.columns(2)
+        p_non_flav = ac7.number_input("Non-Flavanoid", value=float(df_raw['nonflavanoid_phenols'].mean()))
+        p_proantho = ac8.number_input("Proanthocyanins", value=float(df_raw['proanthocyanins'].mean()))
+        
+        st.markdown("**Visual Specs**")
+        ac9, ac10 = st.columns(2)
+        p_color = ac9.number_input("Color Intensity", value=float(df_raw['color_intensity'].mean()))
+        p_hue = ac10.number_input("Hue", value=float(df_raw['hue'].mean()))
+        
+        p_od280 = st.number_input("OD280/OD315", value=float(df_raw['od280'].mean()))
+        p_proline = st.number_input("Proline", value=float(df_raw['proline'].mean()))
+        
         submitted = st.form_submit_button("REVEAL ESSENCE")
         if submitted:
-            # Create a full feature vector using means for features not input
-            mean_vals = df_raw.mean()
-            input_dict = mean_vals.to_dict()
-            input_dict['alcohol'] = p_alcohol
-            input_dict['malic_acid'] = p_malic
-            input_dict['color_intensity'] = p_color
+            # Create a full feature vector using all 13 inputs
+            input_dict = {
+                'alcohol': p_alcohol,
+                'malic_acid': p_malic,
+                'ash': p_ash,
+                'ash_alcanity': p_ash_alc,
+                'magnesium': p_magnesium,
+                'total_phenols': p_phenols,
+                'flavanoids': p_flavanoids,
+                'nonflavanoid_phenols': p_non_flav,
+                'proanthocyanins': p_proantho,
+                'color_intensity': p_color,
+                'hue': p_hue,
+                'od280': p_od280,
+                'proline': p_proline
+            }
             
             input_df = pd.DataFrame([input_dict])
             input_scaled = master_scaler.transform(input_df)
